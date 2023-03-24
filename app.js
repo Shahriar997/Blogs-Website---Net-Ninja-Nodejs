@@ -1,5 +1,6 @@
 const { response } = require('express');
 const express = require('express');
+const morgan = require('morgan');
 
 // express app
 const app = express();
@@ -11,6 +12,12 @@ app.set('view engine','ejs');
 //listen request
 app.listen(3000, () => console.log('server started'));
 
+
+// middleware and static files (css, images,etc.)
+app.use(express.static('public')); // anything in public folder will be accessible from browser
+
+app.use(morgan('dev'));
+
 app.get('/', (req, res) => {
     // res.send('<p>home page</p>');
     // res.sendFile('./views/index.html', { root: __dirname }); // second param is to show from where the given relative path starts
@@ -21,6 +28,7 @@ app.get('/', (req, res) => {
     ];
     res.render('index', { title: 'Home', blogs });
 });
+
 
 app.get('/about', (req, res) => {
     // res.send('<p>about page</p>')
